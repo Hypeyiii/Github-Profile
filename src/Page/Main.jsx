@@ -100,7 +100,7 @@ function Main() {
             <div
               className={`${
                 username ? "bg-transparent" : "bg-black"
-              } w-20 md:w-32 p-1 md:p-3 rounded-xl`}
+              } w-20 md:w-32 p-2 md:p-3 rounded-xl`}
             >
               {loading ? (
                 <img
@@ -172,8 +172,8 @@ function Main() {
           <h1 className="text-2xl md:text-5xl font-bold">
             {username ? data.name : ""}
           </h1>
-          <p className="text-sm md:text-xl">
-            {data.bio ? (username ? data.bio : "") : "No bio available"}
+          <p className={`text-sm md:text-xl ${username ? "block" : "hidden"}`}>
+            {data.bio ? data.bio : "No bio available."}
           </p>
         </div>
         {username ? (
@@ -246,7 +246,7 @@ function Main() {
                       ))}
                     {repos.length > 6 && (
                       <button
-                        className="flex w-full justify-center col-span-1 md:col-span-2 text-xl text-[#4A5567] my-5"
+                        className="flex w-fit m-auto justify-center col-span-1 md:col-span-2 text-xl text-[#4A5567] my-5 px-4 py-2 rounded-full border-2 border-transparent md:hover:border-[#4A5567] transition-all"
                         onClick={() => setShowAllRepos(!showAllRepos)}
                       >
                         {showAllRepos
