@@ -19,6 +19,7 @@ function Main() {
     searchResults,
     loadingSearch,
     showMenu,
+    setShowMenu,
     setUsername,
     setUser,
     updateDay,
@@ -48,8 +49,11 @@ function Main() {
             className="bg-transparent text-[#CDD5E0] w-full p-1 md:p-2 rounded-xl focus:outline-none text-xs md:text-base"
             onChange={(e) => setUser(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === "Enter")
-                setUsername(e.target.value), setShowAllRepos(false);
+              if (e.key === "Enter") {
+                setUsername(e.target.value),
+                  setShowAllRepos(false),
+                  setUser("");
+              }
             }}
           />
           {loadingSearch ? (
@@ -73,6 +77,8 @@ function Main() {
                   onClick={() => {
                     setUsername(result.login);
                     setUser("");
+                    setShowAllRepos(false);
+                    setShowMenu(false);
                   }}
                 >
                   <img
@@ -100,7 +106,7 @@ function Main() {
             <div
               className={`${
                 username ? "bg-transparent" : "bg-black"
-              } w-20 md:w-32 p-2 md:p-3 rounded-xl`}
+              } w-20 md:w-32 p-2 md:p-3 rounded-xl relative`}
             >
               {loading ? (
                 <img
@@ -114,9 +120,12 @@ function Main() {
                   target="_black"
                   className="w-full"
                 >
+                  <p className="absolute bottom-[-15px] left-0 right-0 m-auto text-center font-bold text-xs md:text-sm text-[#CDD5E0]">
+                    {data.login}
+                  </p>
                   <img
                     src={username ? data.avatar_url : Github}
-                    alt="Logo de Github"
+                    alt={`Logo del usuario ${username} en Github`}
                     className={`w-32 h-auto rounded-lg`}
                   />
                 </a>
@@ -169,11 +178,22 @@ function Main() {
           </div>
         </div>
         <div className="mt-20 flex flex-col gap-2 h-fit w-[90%] md:w-[80%] m-auto text-[#CDD5E0]">
-          <h1 className="text-2xl md:text-5xl font-bold">
+          <h1 className={`text-2xl md:text-3xl font-bold`}>
             {username ? data.name : ""}
           </h1>
-          <p className={`text-sm md:text-xl ${username ? "block" : "hidden"}`}>
+          <p
+            className={`text-sm md:text-xl font-normal ${
+              username ? "block" : "hidden"
+            }`}
+          >
             {data.bio ? data.bio : "No bio available."}
+          </p>
+          <p
+            className={`text-xs md:text-sm text-[#4A5567] ${
+              username ? "block" : "hidden"
+            }`}
+          >
+            {data.type}
           </p>
         </div>
         {username ? (
@@ -204,7 +224,7 @@ function Main() {
                           <h3 className="text-[#CDD5E0] font-semibold">
                             {repo.name}
                           </h3>
-                          <p className="text-[#4A5567]">
+                          <p className="text-[#4A5567] text-xs md:text-base text-wrap">
                             {repo.description
                               ? repo.description
                               : "This repository has no description."}
